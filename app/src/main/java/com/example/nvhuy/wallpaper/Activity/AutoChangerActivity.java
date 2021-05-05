@@ -101,7 +101,8 @@ public class AutoChangerActivity extends BaseActivity implements LocalImageAdapt
 
 
     public ArrayList<File> getFile() {
-        String path = Environment.getExternalStorageDirectory().toString() + File.separator + "Android" + File.separator + "data" + File.separator + getPackageName() + File.separator + "files" + File.separator + "downloaded";
+//        String path = Environment.getExternalStorageDirectory().toString() + File.separator + "Android" + File.separator + "data" + File.separator + getPackageName() + File.separator + "files" + File.separator + "downloaded";
+        String path = this.getFilesDir().getAbsolutePath() + File.separator + "downloaded";
         File directory = new File(path);
         Log.e("~~~",path);
 

@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <attr name="white" format="reference" />
-    <declare-styleable name="custom_font">
-        <attr name="app_font" format="string" />
-    </declare-styleable>
-</resources>

@@ -10,10 +10,12 @@ import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.app.DownloadManager;
 import android.app.WallpaperManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -43,6 +45,15 @@ import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
 import com.developer.kalert.KAlertDialog;
+import com.downloader.Error;
+import com.downloader.OnCancelListener;
+import com.downloader.OnDownloadListener;
+import com.downloader.OnPauseListener;
+import com.downloader.OnProgressListener;
+import com.downloader.OnStartOrResumeListener;
+import com.downloader.PRDownloader;
+import com.downloader.PRDownloaderConfig;
+import com.downloader.Progress;
 import com.example.nvhuy.wallpaper.Service.MyDatabaseHelper;
 import com.example.nvhuy.wallpaper.R;
 import com.example.nvhuy.wallpaper.Ultility.Common;
@@ -89,6 +100,7 @@ public class DetailActivity extends BaseActivity implements BottomSheetDialog.Ca
     Image image;
     FirebaseFirestore db;
     private FirebaseAnalytics mFirebaseAnalytics;
+    DownloadManager dm;
 
     BottomSheetDialog bottomSheet;
 
@@ -332,19 +344,6 @@ public class DetailActivity extends BaseActivity implements BottomSheetDialog.Ca
                 } else {
                     download.setVisibility(View.GONE);
                     text_download.setVisibility(View.VISIBLE);
-                    ValueAnimator animator = ValueAnimator.ofInt(0, 100);
-                    animator.setDuration(5000);
-                    animator.addUpdateListener(animation -> {
-                        text_download.setText(animation.getAnimatedValue().toString() + "%");
-                    });
-                    animator.start();
-                    final Handler handler = new Handler();
-                    handler.postDelayed(() -> {
-                        text_download.setVisibility(View.GONE);
-                        download.setVisibility(View.VISIBLE);
-                        download.setImageResource(R.drawable.downloaded);
-                        download.setClickable(false);
-                    }, 6000);
 
                     //start analytics
                     Bundle params = new Bundle();
@@ -355,9 +354,10 @@ public class DetailActivity extends BaseActivity implements BottomSheetDialog.Ca
 
 
                     if (kind.equals("video")) {
-                        downloadImageNew(id_image, url, ".mp4");
+                        download(url,id_image+".mp4");
+
                     } else {
-                        downloadImageNew(id_image, url, ".jpg");
+                        download(url,id_image+".jpg");
                     }
                 }
             }
@@ -417,31 +417,7 @@ public class DetailActivity extends BaseActivity implements BottomSheetDialog.Ca
                 });
     }
 
-    private void downloadImageNew(String filename, String downloadUrlOfImage, String fileType) {
-        try {
 
-            File direct = new File("/downloaded");
-            if (!direct.exists()) {
-                direct.mkdirs();
-            }
-
-            DownloadManager dm = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
-            Uri downloadUri = Uri.parse(downloadUrlOfImage);
-            DownloadManager.Request request = new DownloadManager.Request(downloadUri);
-            request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE)
-                    .setAllowedOverRoaming(false)
-                    .setTitle(filename)
-                    .setMimeType("image/jpeg") // Your file type. You can use this code to download other file types also.
-                    .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-                    .setDestinationInExternalFilesDir(this, "/downloaded", File.separator + filename + fileType);
-            dm.enqueue(request);
-
-
-        } catch (Exception e) {
-            Toast.makeText(this, "Can't save image.", Toast.LENGTH_SHORT).show();
-            Log.e("!!!", e.getMessage());
-        }
-    }
 
     private void downloadImageNewInApp(String filename, String downloadUrlOfImage, String fileType) {
         try {
@@ -449,7 +425,7 @@ public class DetailActivity extends BaseActivity implements BottomSheetDialog.Ca
             if (!direct.exists()) {
                 direct.mkdirs();
             }
-            DownloadManager dm = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+            dm = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
             Uri downloadUri = Uri.parse(downloadUrlOfImage);
             DownloadManager.Request request = new DownloadManager.Request(downloadUri);
             request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE)
@@ -616,4 +592,166 @@ public class DetailActivity extends BaseActivity implements BottomSheetDialog.Ca
         }, time);
     }
 
+    private BroadcastReceiver downloadReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context arg0, Intent intent) {
+            String action = intent.getAction();
+            if (DownloadManager.ACTION_DOWNLOAD_COMPLETE.equals(action)) {
+                long downloadId = intent.getLongExtra(
+                        DownloadManager.EXTRA_DOWNLOAD_ID, 0);
+                System.out.println("download id=" + downloadId);
+                checkDwnloadStatus(downloadId);
+            }
+        }
+    };
+
+    private void checkDwnloadStatus(long id) {
+
+        // TODO Auto-generated method stub
+        DownloadManager.Query query = new DownloadManager.Query();
+
+        query.setFilterById(id);
+        Cursor cursor = dm.query(query);
+        if (cursor.moveToFirst()) {
+            int columnIndex = cursor
+                    .getColumnIndex(DownloadManager.COLUMN_STATUS);
+            int status = cursor.getInt(columnIndex);
+            int columnReason = cursor
+                    .getColumnIndex(DownloadManager.COLUMN_REASON);
+            int reason = cursor.getInt(columnReason);
+
+            switch (status) {
+                case DownloadManager.STATUS_FAILED:
+                    String failedReason = "";
+                    switch (reason) {
+                        case DownloadManager.ERROR_CANNOT_RESUME:
+                            failedReason = "ERROR_CANNOT_RESUME";
+                            break;
+                        case DownloadManager.ERROR_DEVICE_NOT_FOUND:
+                            failedReason = "ERROR_DEVICE_NOT_FOUND";
+                            break;
+                        case DownloadManager.ERROR_FILE_ALREADY_EXISTS:
+                            failedReason = "ERROR_FILE_ALREADY_EXISTS";
+                            break;
+                        case DownloadManager.ERROR_FILE_ERROR:
+                            failedReason = "ERROR_FILE_ERROR";
+                            break;
+                        case DownloadManager.ERROR_HTTP_DATA_ERROR:
+                            failedReason = "ERROR_HTTP_DATA_ERROR";
+                            break;
+                        case DownloadManager.ERROR_INSUFFICIENT_SPACE:
+                            failedReason = "ERROR_INSUFFICIENT_SPACE";
+                            break;
+                        case DownloadManager.ERROR_TOO_MANY_REDIRECTS:
+                            failedReason = "ERROR_TOO_MANY_REDIRECTS";
+                            break;
+                        case DownloadManager.ERROR_UNHANDLED_HTTP_CODE:
+                            failedReason = "ERROR_UNHANDLED_HTTP_CODE";
+                            break;
+                        case DownloadManager.ERROR_UNKNOWN:
+                            failedReason = "ERROR_UNKNOWN";
+                            break;
+                    }
+
+                    Toast.makeText(this, "FAILED: " + failedReason,
+                            Toast.LENGTH_LONG).show();
+                    break;
+                case DownloadManager.STATUS_PAUSED:
+                    String pausedReason = "";
+
+                    switch (reason) {
+                        case DownloadManager.PAUSED_QUEUED_FOR_WIFI:
+                            pausedReason = "PAUSED_QUEUED_FOR_WIFI";
+                            break;
+                        case DownloadManager.PAUSED_UNKNOWN:
+                            pausedReason = "PAUSED_UNKNOWN";
+                            break;
+                        case DownloadManager.PAUSED_WAITING_FOR_NETWORK:
+                            pausedReason = "PAUSED_WAITING_FOR_NETWORK";
+                            break;
+                        case DownloadManager.PAUSED_WAITING_TO_RETRY:
+                            pausedReason = "PAUSED_WAITING_TO_RETRY";
+                            break;
+                    }
+
+                    Toast.makeText(this, "PAUSED: " + pausedReason,
+                            Toast.LENGTH_LONG).show();
+                    break;
+                case DownloadManager.STATUS_PENDING:
+                    Toast.makeText(this, "PENDING", Toast.LENGTH_LONG).show();
+                    break;
+                case DownloadManager.STATUS_RUNNING:
+                    Toast.makeText(this, "RUNNING", Toast.LENGTH_LONG).show();
+                    break;
+                case DownloadManager.STATUS_SUCCESSFUL:
+                    Toast.makeText(this, "SUCCESSFUL", Toast.LENGTH_LONG).show();
+                    // GetFile();
+                    break;
+            }
+        }
+    }
+    private  void download(String url, String filename){
+
+
+        File direct = new File(this.getFilesDir().getAbsolutePath() + File.separator + "downloaded");
+        Log.e("downloadTask",this.getFilesDir().getAbsolutePath() +File.separator + "downloaded");
+        if (!direct.exists()) {
+            direct.mkdirs();
+        }
+        PRDownloaderConfig config = PRDownloaderConfig.newBuilder()
+                .setReadTimeout(30_000)
+                .setConnectTimeout(30_000)
+                .setDatabaseEnabled(true)
+                .build();
+        PRDownloader.initialize(getApplicationContext(), config);
+        PRDownloader.download(url, direct.getAbsolutePath(), filename)
+                .build()
+                .setOnStartOrResumeListener(new OnStartOrResumeListener() {
+                    @Override
+                    public void onStartOrResume() {
+                    Log.e("downloadTask","start or resume");
+                    }
+                })
+                .setOnPauseListener(new OnPauseListener() {
+                    @Override
+                    public void onPause() {
+                        Log.e("downloadTask","on pause");
+                    }
+                })
+                .setOnCancelListener(new OnCancelListener() {
+                    @Override
+                    public void onCancel() {
+                        Log.e("downloadTask","cancel");
+                    }
+                })
+                .setOnProgressListener(new OnProgressListener() {
+                    @Override
+                    public void onProgress(Progress progress) {
+                        text_download.setText(Math.round((1.0*progress.currentBytes/progress.totalBytes)*100) + "%");
+                        Log.e("downloadTask",Math.round((1.0*progress.currentBytes/progress.totalBytes)*100) + "%");
+                    }
+                })
+                .start(new OnDownloadListener() {
+
+                    @Override
+                    public void onDownloadComplete() {
+
+                        text_download.setVisibility(View.GONE);
+                        download.setVisibility(View.VISIBLE);
+                        download.setImageResource(R.drawable.downloaded);
+                        download.setClickable(false);
+                        Log.e("downloadTask","complete");
+                    }
+
+                    @Override
+                    public void onError(Error error) {
+                        text_download.setVisibility(View.GONE);
+                        download.setVisibility(View.VISIBLE);
+                        Log.e("downloadTask","error");
+                    }
+                });
+
+
+    }
 }

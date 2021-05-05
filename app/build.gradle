@@ -79,8 +79,10 @@ dependencies {
     implementation 'com.github.TutorialsAndroid:KAlertDialog:v14.0.19'
 //check permission
     implementation 'com.karumi:dexter:6.2.2'
-
+//custom layoutManager to animation recycler
     implementation 'com.github.Spikeysanju:ZoomRecylerLayout:1.0'
+//to download
+    implementation 'com.mindorks.android:prdownloader:0.6.0'
 
 
     implementation 'com.alimuzaffar.lib:pinentryedittext:2.0.6'

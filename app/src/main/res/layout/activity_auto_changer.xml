@@ -7,28 +7,34 @@
     android:layout_marginStart="@dimen/_5sdp"
     android:layout_marginEnd="@dimen/_5sdp"
     tools:context=".Activity.AutoChangerActivity">
-    <ImageView
-        android:id="@+id/imageBack"
-        android:layout_width="?attr/actionBarSize"
+    <RelativeLayout
+        android:id="@+id/relativeLayout_sample"
+        android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:paddingRight="@dimen/_15sdp"
-        android:paddingTop="@dimen/_15sdp"
-        android:paddingBottom="@dimen/_15sdp"
-        android:src="@drawable/back"
-        app:tint="@color/gray" />
-    <TextView
-        android:id="@+id/tv_title"
-        android:layout_width="wrap_content"
-        android:layout_height="?attr/actionBarSize"
-        android:text="Auto Wallpaper Changer"
-        android:textColor="@color/text_black"
-        android:gravity="center"
-        android:textSize="@dimen/_14ssp"
-        android:layout_toEndOf="@+id/imageBack"/>
+        >
+        <ImageView
+            android:id="@+id/imageBack"
+            android:layout_width="@dimen/_15sdp"
+            android:layout_height="@dimen/_15sdp"
+            android:src="@drawable/back"
+            android:layout_centerVertical="true"
+            app:tint="@color/gray" />
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="Auto Wallpaper Changer"
+            android:textColor="@color/text_black"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:textSize="@dimen/_14ssp"
+            android:layout_toEndOf="@+id/imageBack"/>
+    </RelativeLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tv_title"
+        android:layout_below="@id/relativeLayout_sample"
         android:id="@+id/recyclerView"
         android:visibility="gone"/>
     <RelativeLayout

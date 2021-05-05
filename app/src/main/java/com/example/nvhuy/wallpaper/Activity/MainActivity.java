@@ -166,7 +166,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private void setDarkMode() {
         MenuItem statItem = navigationView.getMenu().findItem(R.id.item_darkMode);
         Switch s = (Switch) statItem.getActionView();
-//        boolean i = s.isChecked();
+        boolean i = s.isChecked();
         sharedPreferences = getSharedPreferences("night", 0);
         Boolean booleanValue = sharedPreferences.getBoolean("night_mode_wallpaper", false);
         if (booleanValue) {

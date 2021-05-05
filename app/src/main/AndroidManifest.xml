@@ -25,13 +25,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Wallpaper"
         android:usesCleartextTraffic="true">
-        <activity android:name=".login.LoginPhoneVerifyActivity"/>
-        <activity android:name=".Activity.MainActivity"/>
-        <activity android:name=".login.ChangePasswordActivity"/>
-        <activity android:name=".login.ForgotActivity"/>
-        <activity android:name=".login.InfoActivity"/>
-        <activity android:name=".login.SignUpActivity"/>
-        <activity android:name=".Activity.UserActivity"></activity>
+        <activity android:name=".Activity.startedActivity"></activity>
+        <activity android:name=".login.LoginPhoneVerifyActivity" />
+        <activity android:name=".login.LoginActivity" />
+        <activity android:name=".login.ChangePasswordActivity" />
+        <activity android:name=".login.ForgotActivity" />
+        <activity android:name=".login.InfoActivity" />
+        <activity android:name=".login.SignUpActivity" />
+        <activity android:name=".Activity.UserActivity" />
         <activity android:name=".Activity.SettingsActivity" />
         <activity android:name=".Activity.SelectFolderActivity" />
         <activity android:name=".Activity.EditActivity" />
@@ -44,7 +45,7 @@
         <activity android:name=".Activity.ItemByCategoryActivity" />
         <activity android:name=".Activity.DetailActivity" />
         <activity
-            android:name=".login.LoginActivity"
+            android:name=".Activity.MainActivity"
             android:configChanges="uiMode">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

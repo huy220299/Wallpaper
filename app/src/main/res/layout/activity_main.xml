@@ -6,6 +6,7 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     android:fitsSystemWindows="true"
     android:clickable="true"
     android:focusableInTouchMode="true"
@@ -112,7 +113,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="?attr/actionBarSize"
-            android:src="?attr/white"
             android:paddingLeft="@dimen/_5sdp"
             android:orientation="vertical">
 
@@ -145,6 +145,7 @@
         app:itemIconTint="@color/gray"
         app:itemIconSize="@dimen/_15sdp"
         app:itemTextColor="@color/gray"
+        android:fitsSystemWindows="true"
         app:menu="@menu/main_menu" />
 
 </androidx.drawerlayout.widget.DrawerLayout>
