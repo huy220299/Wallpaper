@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:key="@string/preferences_key"
+    android:title="@string/settings_activity">
+
+    <ListPreference
+        android:id="@+id/prefs_folder"
+        android:defaultValue="@string/preferences_folder_default"
+        android:entries="@array/preferences_folder_entries"
+        android:entryValues="@array/preferences_folder_values"
+        android:key="@string/preferences_folder_key"
+        android:summary="@string/preferences_folder_default"
+        android:title="@string/preferences_folder_title"
+
+        />
+
+    <CheckBoxPreference
+        android:id="@+id/prefs_recurse"
+        android:defaultValue="@string/preferences_recurse_default"
+        android:key="@string/preferences_recurse_key"
+        android:summary="@string/preferences_recurse_summary"
+        android:title="@string/preferences_recurse_title" />
+
+    <ListPreference
+        android:id="@+id/prefs_duration"
+        android:defaultValue="@string/preferences_duration_default"
+        android:entries="@array/preferences_duration_entries"
+        android:entryValues="@array/preferences_duration_values"
+        android:key="@string/preferences_duration_key"
+        android:summary="@string/preferences_duration_summary"
+        android:title="@string/preferences_duration_title" />
+
+    <CheckBoxPreference
+        android:id="@+id/prefs_random"
+        android:defaultValue="@string/preferences_random_default"
+        android:key="@string/preferences_random_key"
+        android:summary="@string/preferences_random_summary"
+        android:title="@string/preferences_random_title" />
+
+    <CheckBoxPreference
+        android:id="@+id/prefs_rotate"
+        android:defaultValue="@string/preferences_rotate_default"
+        android:key="@string/preferences_rotate_key"
+        android:summary="@string/preferences_rotate_summary"
+        android:title="@string/preferences_rotate_title" />
+
+    <CheckBoxPreference
+        android:id="@+id/prefs_fit_in_screen"
+        android:defaultValue="@string/preferences_fit_in_screen_default"
+        android:key="@string/preferences_fit_in_screen_key"
+        android:summary="@string/preferences_fit_in_screen_summary"
+        android:title="@string/preferences_fit_in_screen_title" />
+
+    <!--
+        <CheckBoxPreference android:id="@+id/prefs_scroll"
+            android:key="@string/preferences_scroll_key"
+            android:title="@string/preferences_scroll_title"
+            android:summary="@string/preferences_scroll_summary"
+            android:defaultValue="@string/preferences_scroll_default" />
+    -->
+
+    <CheckBoxPreference
+        android:id="@+id/prefs_doubletap"
+        android:defaultValue="@string/preferences_doubletap_default"
+        android:key="@string/preferences_doubletap_key"
+        android:summary="@string/preferences_doubletap_summary"
+        android:title="@string/preferences_doubletap_title" />
+
+    <CheckBoxPreference
+        android:id="@+id/prefs_screen_awake"
+        android:defaultValue="@string/preferences_screen_awake_default"
+        android:key="@string/preferences_screen_awake_key"
+        android:summary="@string/preferences_screen_awake_summary"
+        android:title="@string/preferences_screen_awake_title" />
+
+</PreferenceScreen>

@@ -1,0 +1,30 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/home"
+        android:icon="@drawable/home_selected"
+        android:title="Home"
+        app:cnb_iconColor="@color/selected_color"/>
+    <item
+        android:id="@+id/live"
+        android:icon="@drawable/live"
+        android:title="Live"
+        app:cnb_iconColor="@color/selected_color"/>
+    <item
+        android:id="@+id/trending"
+        android:icon="@drawable/fire"
+        android:title="Trending"
+        app:cnb_iconColor="@color/selected_color" />
+b    <item
+        android:id="@+id/random"
+        android:icon="@drawable/random"
+        android:title="Random"
+        app:cnb_iconColor="@color/selected_color" />
+    <item
+        android:id="@+id/category"
+        android:icon="@drawable/list"
+        android:title="Category"
+        app:cnb_iconColor="@color/selected_color" />
+</menu>
+
+

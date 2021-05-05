@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "610331350711",
+    "project_id": "wallpaper-39f6c",
+    "storage_bucket": "wallpaper-39f6c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:610331350711:android:56bc1aa2db225c8438df32",
+        "android_client_info": {
+          "package_name": "com.example.nvhuy.wallpaper"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "610331350711-6e6k1n19qa2hhsbtlnhda3vhniv4l9ht.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXp0mPXHifbZnZN5SOInLlzN1mLcIoRKs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "610331350711-6e6k1n19qa2hhsbtlnhda3vhniv4l9ht.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
