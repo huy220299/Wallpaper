@@ -71,7 +71,8 @@ public class LocalImageAdapter extends RecyclerView.Adapter<LocalImageAdapter.Vi
         });
         holder.itemView.setOnClickListener(view -> {
             if (listSelected[position] == 0) {
-                holder.is_selected.setVisibility(View.VISIBLE);
+//                holder.itemView.setBackground(context.getDrawable(R.drawable.bg_login_button));
+                holder.itemView.setForeground(context.getDrawable(R.drawable.bg_login_button));
                 listSelected[position] = 1;
                 try {
                     File file = new File(path);
@@ -86,7 +87,7 @@ public class LocalImageAdapter extends RecyclerView.Adapter<LocalImageAdapter.Vi
 
                 }
             } else {
-                holder.is_selected.setVisibility(View.GONE);
+                holder.itemView.setForeground(null);
                 listSelected[position] = 0;
                 if (checkDownload(list.get(position).getName())) {
                     File file = new File(path + list.get(position).getName());
@@ -107,12 +108,13 @@ public class LocalImageAdapter extends RecyclerView.Adapter<LocalImageAdapter.Vi
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView img, is_selected;
+        ImageView img;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             img = itemView.findViewById(R.id.imageView);
-            is_selected = itemView.findViewById(R.id.is_selected);
+
+
         }
 
 

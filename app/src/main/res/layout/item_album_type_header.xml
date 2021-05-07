@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/_100sdp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardCornerRadius="@dimen/_20sdp">
+    app:cardCornerRadius="15dp">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:background="@color/white"
+        android:background="@color/background_color"
         android:layout_height="match_parent">
         <TextView
             android:id="@+id/tv_more_brand"
@@ -17,7 +17,7 @@
             android:gravity="top|start"
             android:layout_margin="@dimen/_10sdp"
             android:text="more than 33 brands"
-            android:textColor="@color/text_black"/>
+            android:textColor="@color/text_change_color"/>
         <TextView
             android:id="@+id/view_all"
             android:layout_width="wrap_content"
@@ -25,8 +25,8 @@
             android:gravity="top|right"
             android:layout_margin="@dimen/_10sdp"
             android:layout_alignParentEnd="true"
-            android:text="VIEW ALL >"
-            android:textColor="@color/text_black"/>
+            android:text="VIEW ALL >>"
+            android:textColor="@color/text_change_color"/>
 
         <androidx.constraintlayout.motion.widget.MotionLayout
             android:id="@+id/constraintLayout"

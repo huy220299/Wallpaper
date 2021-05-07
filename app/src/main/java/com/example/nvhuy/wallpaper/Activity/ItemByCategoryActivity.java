@@ -49,7 +49,8 @@ public class ItemByCategoryActivity extends BaseActivity {
         mImageList = new ArrayList<>();
         adapter = new RecyclerViewAdapter(mImageList);
         recyclerView.setAdapter(adapter);
-        ZoomRecyclerGridLayout mLayoutManager =new ZoomRecyclerGridLayout(this,2);
+//        ZoomRecyclerGridLayout mLayoutManager =new ZoomRecyclerGridLayout(this,2);
+        GridLayoutManager mLayoutManager =new GridLayoutManager(this,2);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override

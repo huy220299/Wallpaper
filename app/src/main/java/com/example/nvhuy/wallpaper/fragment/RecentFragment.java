@@ -97,7 +97,7 @@ public class RecentFragment extends Fragment {
         rRecent.setHasFixedSize(true);
 
 
-        ZoomRecyclerGridLayout mLayoutManager = new ZoomRecyclerGridLayout(getContext(), 2);
+        GridLayoutManager mLayoutManager = new GridLayoutManager(getContext(), 2);
         mLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {

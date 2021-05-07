@@ -36,7 +36,7 @@ public class LiveFragment extends Fragment {
     RecyclerView rCategory;
     ArrayList<Image> mImageList;
     RecyclerViewAdapter adapter;
-    ViewPager viewPager;
+
 
     private boolean loading = true;
     int pastVisiblesItems, visibleItemCount, totalItemCount;
@@ -88,7 +88,7 @@ public class LiveFragment extends Fragment {
             }
         });
 
-        ZoomRecyclerGridLayout mLayoutManager =new ZoomRecyclerGridLayout(getContext(),2);
+        GridLayoutManager mLayoutManager =new GridLayoutManager(getContext(),2);
         rCategory.setLayoutManager(mLayoutManager);
 
         rCategory.addOnScrollListener(new RecyclerView.OnScrollListener() {

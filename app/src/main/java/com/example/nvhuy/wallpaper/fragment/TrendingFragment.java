@@ -89,7 +89,7 @@ public class TrendingFragment extends Fragment {
             }
         });
 
-        ZoomRecyclerGridLayout mLayoutManager =new ZoomRecyclerGridLayout(getContext(),2,RecyclerView.VERTICAL,false);
+        GridLayoutManager mLayoutManager =new GridLayoutManager(getContext(),2,RecyclerView.VERTICAL,false);
         rCategory.setLayoutManager(mLayoutManager);
 
         rCategory.addOnScrollListener(new RecyclerView.OnScrollListener() {

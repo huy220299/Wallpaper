@@ -3,6 +3,7 @@ package com.example.nvhuy.wallpaper.fragment;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
@@ -62,8 +63,7 @@ public class CategoryFragment extends Fragment {
                 listCategory = (ArrayList<Category>) response.body();
                 adapter_category = new CustomerAdapter_category(getContext(),listCategory,listBrand);
                 rCategory.setAdapter(adapter_category);
-                ZoomRecyclerGridLayout mLayoutManager =
-                        new ZoomRecyclerGridLayout(getContext(),1, StaggeredGridLayoutManager.VERTICAL,true);
+                GridLayoutManager mLayoutManager =new GridLayoutManager(getContext(),1);
                 rCategory.setLayoutManager(mLayoutManager);
             }
             @Override

@@ -4,28 +4,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginStart="@dimen/_5sdp"
-    android:layout_marginEnd="@dimen/_5sdp"
+    android:background="@color/background_color"
     tools:context=".Activity.AutoChangerActivity">
     <RelativeLayout
         android:id="@+id/relativeLayout_sample"
         android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/_20sdp"
         android:layout_height="?attr/actionBarSize"
+        android:layout_marginStart="@dimen/_5sdp"
+        android:layout_marginEnd="@dimen/_5sdp"
         >
         <ImageView
             android:id="@+id/imageBack"
             android:layout_width="@dimen/_15sdp"
             android:layout_height="@dimen/_15sdp"
-            android:src="@drawable/back"
+            android:src="@drawable/icon_back"
             android:layout_centerVertical="true"
-            app:tint="@color/gray" />
+            app:tint="@color/text_change_color" />
         <TextView
             android:id="@+id/tv_title"
+            android:layout_marginTop="@dimen/_20sdp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:text="Auto Wallpaper Changer"
-            android:textColor="@color/text_black"
+            android:textColor="@color/text_change_color"
             android:layout_marginLeft="@dimen/_5sdp"
             android:textSize="@dimen/_14ssp"
             android:layout_toEndOf="@+id/imageBack"/>
@@ -34,71 +37,15 @@
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_5sdp"
+        android:layout_marginEnd="@dimen/_5sdp"
         android:layout_below="@id/relativeLayout_sample"
         android:id="@+id/recyclerView"
         android:visibility="gone"/>
-    <RelativeLayout
-        android:id="@+id/layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/recyclerView">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Storage Path"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:id="@+id/tv1"
-            android:lineSpacingExtra="@dimen/_3sdp"
-            android:textStyle="bold"
-            android:textSize="@dimen/_14ssp"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Internal Storage/LitWallz"
-            android:layout_below="@id/tv1"
-            android:id="@+id/tv2"
-            android:textSize="@dimen/_10ssp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Important Note"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:layout_below="@id/tv2"
-            android:id="@+id/tv3"
-            android:textStyle="bold"
-            android:textSize="@dimen/_14ssp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/note1"
-            android:layout_below="@id/tv3"
-            android:lineSpacingExtra="@dimen/_3sdp"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:id="@+id/tv4"
-            android:textSize="@dimen/_10ssp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/note2"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:lineSpacingExtra="@dimen/_3sdp"
-            android:layout_below="@id/tv4"
-            android:id="@+id/tv5"
-            android:textSize="@dimen/_10ssp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:lineSpacingExtra="@dimen/_3sdp"
-            android:text="@string/note3"
-            android:layout_below="@id/tv5"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:id="@+id/tv6"
-            android:textSize="@dimen/_10ssp"/>
-    </RelativeLayout>
+
     <LinearLayout
         android:id="@+id/linear"
-        android:layout_below="@id/layout"
+        android:layout_below="@id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -107,10 +54,10 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_width="0dp"
-            android:background="@drawable/gradient_button"
+            android:background="@drawable/background_button_start"
             android:layout_marginLeft="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_15sdp"
-            android:text="START AUTO CHANGE"
+            android:text="START"
             android:singleLine="true"
             android:padding="@dimen/_5sdp"
             android:textColor="@color/white"/>
@@ -119,7 +66,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/gradient_button"
+
+            android:background="@drawable/background_button_setting"
             android:layout_margin="@dimen/_15sdp"
             android:text="SETTING"
             android:textColor="@color/white"/>

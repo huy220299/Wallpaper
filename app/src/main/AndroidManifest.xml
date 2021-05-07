@@ -25,7 +25,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Wallpaper"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Activity.startedActivity"></activity>
+        <activity android:name=".Activity.ActivityPermission"></activity>
+        <activity android:name=".Activity.StartedActivity" />
         <activity android:name=".login.LoginPhoneVerifyActivity" />
         <activity android:name=".login.LoginActivity" />
         <activity android:name=".login.ChangePasswordActivity" />

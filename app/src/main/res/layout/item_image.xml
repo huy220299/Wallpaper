@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="@dimen/_250sdp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardCornerRadius="30dp"
+    app:cardCornerRadius="15dp"
     android:layout_marginRight="@dimen/_5sdp"
     android:layout_marginTop="@dimen/_5sdp">
 
@@ -21,17 +22,18 @@
         android:layout_gravity="bottom"
         android:textColor="@color/text_color"
         android:singleLine="true"
-        android:text="Stark"
         android:textSize="@dimen/_9ssp"
-        android:paddingLeft="@dimen/_10sdp"
-        android:layout_marginRight="@dimen/_50sdp"
+        android:paddingStart="@dimen/_10sdp"
+        android:visibility="gone"
+        android:layout_marginEnd="@dimen/_50sdp"
         android:fontFamily="@font/muli_bolditalic"
-        android:paddingBottom="@dimen/_10sdp"/>
+        android:paddingBottom="@dimen/_10sdp"
+        tools:ignore="RtlSymmetry" />
     <ImageView
         android:id="@+id/item_is_live"
         android:layout_width="@dimen/_10sdp"
         android:layout_height="@dimen/_10sdp"
-        android:src="@drawable/live"
+        android:src="@drawable/icon_live"
         app:tint="@color/white"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/_10sdp"

@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -45,9 +46,9 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
         View v = inflater.inflate(R.layout.bottom_sheet_layout, container, false);
 
 
-        ImageView setHomeScreen = v.findViewById(R.id.home_img1);
-        ImageView setLockScreen = v.findViewById(R.id.home_img2);
-        ImageView setAllScreen = v.findViewById(R.id.home_img3);
+        LinearLayout setHomeScreen = v.findViewById(R.id.linear1);
+        LinearLayout setLockScreen = v.findViewById(R.id.linear2);
+        LinearLayout setAllScreen = v.findViewById(R.id.linear3);
 
         setHomeScreen.setOnClickListener(v1 -> {
             if (callback != null) {

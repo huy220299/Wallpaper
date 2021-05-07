@@ -26,14 +26,16 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
                 LiveFragment liveFragment = new LiveFragment();
                 return liveFragment;
             case 2:
-                TrendingFragment trendingFragment = new TrendingFragment();
-                return trendingFragment;
+                CategoryFragment categoryFragment = new CategoryFragment();
+                return categoryFragment;
+
             case 3:
                 TrendingFragment randomFragment = new TrendingFragment();
                 return randomFragment;
             case 4:
-                CategoryFragment categoryFragment = new CategoryFragment();
-                return categoryFragment;
+                TrendingFragment trendingFragment = new TrendingFragment();
+                return trendingFragment;
+
         }
         return null;
     }

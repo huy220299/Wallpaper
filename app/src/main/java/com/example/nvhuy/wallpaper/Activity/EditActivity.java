@@ -19,12 +19,11 @@ import com.jgabrielfreitas.core.BlurImageView;
 
 public class EditActivity extends BaseActivity {
     BlurImageView imageView;
-    ImageView btn_blur, btn_done;
-    LinearLayout action_blur, action_done;
+    ImageView  btn_done;
     SeekBar seekBar;
     TextView numberBlur;
     Bitmap bitmap;
-    RelativeLayout relativeLayout;
+
     int progress_=0;
 
     @Override
@@ -33,17 +32,16 @@ public class EditActivity extends BaseActivity {
         setContentView(R.layout.activity_edit);
 
         String url = getIntent().getExtras().getString("url");
-        action_blur = findViewById(R.id.action_blur);
-        action_done = findViewById(R.id.action_done);
+        btn_done = findViewById(R.id.action_done);
         imageView = findViewById(R.id.BlurImageView);
 
         seekBar = findViewById(R.id.seekbar);
         numberBlur = findViewById(R.id.numberSeekBar);
-        relativeLayout = findViewById(R.id.relative_layout_editor_activity_saturation);
+
         Glide.with(this).load(url).into(imageView);
         Log.e("~~~", "url:"+url);
 
-        action_blur.setOnClickListener(v -> relativeLayout.setVisibility(View.VISIBLE));
+
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -52,8 +50,12 @@ public class EditActivity extends BaseActivity {
                 imageView.invalidate();
                 progress_=progress;
                 BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
-                 bitmap = drawable.getBitmap();
+                if (drawable!=null){
+                    bitmap = drawable.getBitmap();
+                }
+
                 numberBlur.setText(progress+" %");
+
             }
 
             @Override
@@ -65,8 +67,7 @@ public class EditActivity extends BaseActivity {
 
             }
         });
-        action_done.setOnClickListener(view -> {
-            relativeLayout.setVisibility(View.GONE);
+        btn_done.setOnClickListener(view -> {
             if (progress_ ==0){
                 bitmap=null;
                 setResult(1);

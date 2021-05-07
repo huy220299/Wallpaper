@@ -30,18 +30,21 @@ public class TabLayoutAdapter extends FragmentStatePagerAdapter {
                 return recentFragment;
 
             case 1:
-                TrendingFragment trendingFragment = new TrendingFragment();
-                return trendingFragment;
-            case 2:
                 LiveFragment liveFragment = new LiveFragment();
                 return liveFragment;
+
+            case 2:
+                CategoryFragment categoryFragment = new CategoryFragment();
+                return categoryFragment;
+
             case 3:
                 TrendingFragment randomFragment = new TrendingFragment();
                 return randomFragment;
 
             case 4:
-                CategoryFragment categoryFragment = new CategoryFragment();
-                return categoryFragment;
+                TrendingFragment trendingFragment = new TrendingFragment();
+                return trendingFragment;
+
 
 
 

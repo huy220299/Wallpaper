@@ -9,8 +9,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="yellow">#F3D654</color>
     <color name="text_color">#FFFFFFFF</color>
-    <color name="purple">#933BBB</color>
-    <color name="selected_color">#933BBB</color>
+    <color name="selected_color">#7413E5</color>
     <color name="unselected_color">#000000</color>
     <color name="gray">#7C7C7C</color>
     <color name="background_tab">#CDCDCD</color>
@@ -21,15 +20,33 @@
     <color name="bg_tabLayout">#111423</color>
     <color name="transparent">#00000000</color>
 
-    <color name="end_color">#00ACC1</color>
-    <color name="start_color">#4fbfa8</color>
 
-    <color name="tags_color">#222222</color>
-    <color name="background_color">#f9feff</color>
+
+//
+
     <color name="red_color">#ff0000</color>
     <color name="grey_color">#cccccc</color>
     <color name="black_color">#000</color>
     <color name="white_color">#fff</color>
     <color name="text_default">#575757</color>
+
+
+    // start
+    <color name="main_color">#7413E5</color>
+
+    <color name="dark_color">#191B31</color>
+    <color name="gray_color">#00000033</color>
+    <color name="theme_color">#191B31</color>
+    <color name="end_color">#00ACC1</color>
+    <color name="start_color">#4fbfa8</color>
+    <color name="color_button_setting">#383A53</color>
+    <color name="bg_edt_search">#969696D3</color>
+    <color name="background_color">#f9feff</color>
+    <color name="text_change_color">#000000</color>
+
+<!--    <color name="background_color">#191B31</color>-->
+<!--    <color name="text_change_color">#fff</color>-->
+<!--    <color name="bg_edt_search">#E0E0E08D</color>-->
+
 
 </resources>

@@ -6,6 +6,8 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.app.DownloadManager;
@@ -37,6 +39,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
@@ -94,13 +97,14 @@ public class DetailActivity extends BaseActivity implements BottomSheetDialog.Ca
     TextView tv_tittle, tv_user, tv_downloaded, tv_views, tv_set, tv_resolution, tv_create, tv_size, tv_follow;
     MyDatabaseHelper myDatabaseHelper;
     VideoView videoView;
-    ProgressBar progressBar;
+//    ProgressBar progressBar;
     private Bitmap result;
     Button text_download;
     Image image;
     FirebaseFirestore db;
     private FirebaseAnalytics mFirebaseAnalytics;
     DownloadManager dm;
+    LottieAnimationView animationApply, animationLoading;
 
     BottomSheetDialog bottomSheet;
 
@@ -115,8 +119,10 @@ public class DetailActivity extends BaseActivity implements BottomSheetDialog.Ca
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
-        progressBar = findViewById(R.id.progress);
-        text_download = findViewById(R.id.text_download);
+        animationApply = findViewById(R.id.animation_apply);
+        animationLoading = findViewById(R.id.animation_loading);
+//        progressBar = findViewById(R.id.progress);
+//        text_download = findViewById(R.id.text_download);
         changeWallpaper = findViewById(R.id.btn_apply_wallpaper);
         changeWallpaper.setClickable(true);
         imageView = findViewById(R.id.imageBackground);
@@ -181,7 +187,8 @@ public class DetailActivity extends BaseActivity implements BottomSheetDialog.Ca
             videoView.setOnPreparedListener(mp -> {
                 mp.setLooping(true);
                 mp.setVolume(0f, 0f);
-                progressBar.setVisibility(View.GONE);
+                animationLoading.setVisibility(View.GONE);
+//                progressBar.setVisibility(View.GONE);
             });
         } else {
             edit.setVisibility(View.VISIBLE);
@@ -189,21 +196,24 @@ public class DetailActivity extends BaseActivity implements BottomSheetDialog.Ca
             Glide.with(DetailActivity.this)
                     .load(url)
                     .thumbnail(0.1f)
-                    .dontAnimate()
                     .listener(new RequestListener<Drawable>() {
                         @Override
                         public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                            progressBar.setVisibility(View.GONE);
+//                            progressBar.setVisibility(View.GONE);
+                            animationLoading.setVisibility(View.GONE);
                             new KAlertDialog(DetailActivity.this, KAlertDialog.WARNING_TYPE)
                                     .setTitleText("Reload please,  error connection!")
                                     .setConfirmText("OK")
+                                    .setConfirmClickListener(kAlertDialog -> onBackPressed())
                                     .show();
+                            Log.e(TAG,e.getMessage());
                             return false;
                         }
 
                         @Override
                         public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                            progressBar.setVisibility(View.GONE);
+//                            progressBar.setVisibility(View.GONE);
+                            animationLoading.setVisibility(View.GONE);
                             return false;
                         }
                     })
@@ -238,8 +248,7 @@ public class DetailActivity extends BaseActivity implements BottomSheetDialog.Ca
                 }
             }
         });
-//        checkExist();
-//        db.collection("Image").document(image.getId().toString()).set(image);
+
 
     }
     public void getAll(){
@@ -298,7 +307,7 @@ public class DetailActivity extends BaseActivity implements BottomSheetDialog.Ca
         Glide.with(this).load(img_user).into(user_image);
         //set follow and liked
         if (myDatabaseHelper.checkLiked(id_image)) {
-            like.setImageResource(R.drawable.liked);
+            like.setImageResource(R.drawable.icon_favorited);
         }
         if (myDatabaseHelper.checkFollow(id_user)) {
             tv_follow.setText("UNFOLLOW");
@@ -325,6 +334,12 @@ public class DetailActivity extends BaseActivity implements BottomSheetDialog.Ca
         });
         //change Wallpaper
         changeWallpaper.setOnClickListener(v -> {
+
+            Bundle params = new Bundle();
+            params.putString("image_name", tittle);
+            params.putString("full_text", url);
+            mFirebaseAnalytics.logEvent("apply_wallpaper", params);
+
             if (kind.equals("video")) {
                 VideoLiveWallpaper.setToWallPaper(DetailActivity.this);
 
@@ -342,8 +357,8 @@ public class DetailActivity extends BaseActivity implements BottomSheetDialog.Ca
                 if (Common.checkDownload(id_image,DetailActivity.this)) {
                     Toast.makeText(this, "You has downloaded", Toast.LENGTH_SHORT).show();
                 } else {
-                    download.setVisibility(View.GONE);
-                    text_download.setVisibility(View.VISIBLE);
+//                    download.setVisibility(View.GONE);
+//                    text_download.setVisibility(View.VISIBLE);
 
                     //start analytics
                     Bundle params = new Bundle();
@@ -368,7 +383,7 @@ public class DetailActivity extends BaseActivity implements BottomSheetDialog.Ca
         like.setOnClickListener(v -> {
             if (!myDatabaseHelper.checkLiked(id_image)) {
                 myDatabaseHelper.insertImage(new Liked_image(id_image, ""));//add to local database
-                like.setImageResource(R.drawable.liked);
+                like.setImageResource(R.drawable.icon_favorited);
                 //download in data app
                 if (kind.equals("video")) {
                     downloadImageNewInApp(id_image, url, ".mp4");
@@ -384,7 +399,7 @@ public class DetailActivity extends BaseActivity implements BottomSheetDialog.Ca
 
             } else {
                 myDatabaseHelper.deleteImage(id_image);
-                like.setImageResource(R.drawable.like);
+                like.setImageResource(R.drawable.icon_favorite);
                 //delete in data app
                 String path = Environment.getExternalStorageDirectory().toString()
                         + File.separator + "Android"
@@ -449,8 +464,9 @@ public class DetailActivity extends BaseActivity implements BottomSheetDialog.Ca
         changeWallpaper.setClickable(false);
         WallpaperManager wallpaperManager = WallpaperManager.getInstance(DetailActivity.this);
         switch (view.getId()){
-            case R.id.home_img1:
-                showAlertDialog(5000);
+            case R.id.linear1:
+//                showAlertDialog(5000);
+                showAnimation(5000);
                 if (result!=null){
                     try {
                         wallpaperManager.setBitmap(result, null, true, WallpaperManager.FLAG_SYSTEM);
@@ -461,8 +477,9 @@ public class DetailActivity extends BaseActivity implements BottomSheetDialog.Ca
                     setHomeScreen();
                 }
                 break;
-            case R.id.home_img2:
-                showAlertDialog(10000);
+            case R.id.linear2:
+//                showAlertDialog(10000);
+                showAnimation(10000);
                 if (result!=null){
                     try {
                         wallpaperManager.setBitmap(result, null, true, WallpaperManager.FLAG_LOCK);
@@ -473,8 +490,9 @@ public class DetailActivity extends BaseActivity implements BottomSheetDialog.Ca
                     setLockScreen();
                 }
                 break;
-            case R.id.home_img3:
-              showAlertDialog(10000);
+            case R.id.linear3:
+//              showAlertDialog(10000);
+              showAnimation(10000);
                 if (result!=null){
                     try {
                         wallpaperManager.setBitmap(result);
@@ -500,7 +518,29 @@ public class DetailActivity extends BaseActivity implements BottomSheetDialog.Ca
         }, 6000);
 
     }
+    private void showAnimation(long time){
+        animationLoading.setVisibility(View.GONE);
+        animationApply.setVisibility(View.VISIBLE);
+        animationApply.setAnimation(R.raw.download);
+        animationApply.loop(true);
+        animationApply.playAnimation();
+        Handler handler = new Handler();
+        handler.postDelayed(() -> {
+            animationApply.loop(false);
+            animationApply.pauseAnimation();
+            animationApply.setAnimation(R.raw.tick);
+            animationApply.playAnimation();
+            animationApply.addAnimatorListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    animationApply.setVisibility(View.GONE);
+                }
+            });
+        }, time);
 
+
+    }
     public boolean checkPermission() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             return true;
@@ -574,123 +614,7 @@ public class DetailActivity extends BaseActivity implements BottomSheetDialog.Ca
                     }
                 });
     }
-    public void showAlertDialog(long time){
-        KAlertDialog pDialog = new KAlertDialog(DetailActivity.this, KAlertDialog.PROGRESS_TYPE);
-        pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-        pDialog.setTitleText("Applying");
-        pDialog.setCancelable(false);
-        pDialog.show();
 
-        Handler handler = new Handler();
-        handler.postDelayed(() -> {
-            pDialog.dismiss();
-            new KAlertDialog(DetailActivity.this, KAlertDialog.SUCCESS_TYPE)
-                    .setTitleText("Success!")
-                    .setContentText("Your wallpaper has changed!")
-                    .setConfirmText("OK")
-                    .show();
-        }, time);
-    }
-
-    private BroadcastReceiver downloadReceiver = new BroadcastReceiver() {
-
-        @Override
-        public void onReceive(Context arg0, Intent intent) {
-            String action = intent.getAction();
-            if (DownloadManager.ACTION_DOWNLOAD_COMPLETE.equals(action)) {
-                long downloadId = intent.getLongExtra(
-                        DownloadManager.EXTRA_DOWNLOAD_ID, 0);
-                System.out.println("download id=" + downloadId);
-                checkDwnloadStatus(downloadId);
-            }
-        }
-    };
-
-    private void checkDwnloadStatus(long id) {
-
-        // TODO Auto-generated method stub
-        DownloadManager.Query query = new DownloadManager.Query();
-
-        query.setFilterById(id);
-        Cursor cursor = dm.query(query);
-        if (cursor.moveToFirst()) {
-            int columnIndex = cursor
-                    .getColumnIndex(DownloadManager.COLUMN_STATUS);
-            int status = cursor.getInt(columnIndex);
-            int columnReason = cursor
-                    .getColumnIndex(DownloadManager.COLUMN_REASON);
-            int reason = cursor.getInt(columnReason);
-
-            switch (status) {
-                case DownloadManager.STATUS_FAILED:
-                    String failedReason = "";
-                    switch (reason) {
-                        case DownloadManager.ERROR_CANNOT_RESUME:
-                            failedReason = "ERROR_CANNOT_RESUME";
-                            break;
-                        case DownloadManager.ERROR_DEVICE_NOT_FOUND:
-                            failedReason = "ERROR_DEVICE_NOT_FOUND";
-                            break;
-                        case DownloadManager.ERROR_FILE_ALREADY_EXISTS:
-                            failedReason = "ERROR_FILE_ALREADY_EXISTS";
-                            break;
-                        case DownloadManager.ERROR_FILE_ERROR:
-                            failedReason = "ERROR_FILE_ERROR";
-                            break;
-                        case DownloadManager.ERROR_HTTP_DATA_ERROR:
-                            failedReason = "ERROR_HTTP_DATA_ERROR";
-                            break;
-                        case DownloadManager.ERROR_INSUFFICIENT_SPACE:
-                            failedReason = "ERROR_INSUFFICIENT_SPACE";
-                            break;
-                        case DownloadManager.ERROR_TOO_MANY_REDIRECTS:
-                            failedReason = "ERROR_TOO_MANY_REDIRECTS";
-                            break;
-                        case DownloadManager.ERROR_UNHANDLED_HTTP_CODE:
-                            failedReason = "ERROR_UNHANDLED_HTTP_CODE";
-                            break;
-                        case DownloadManager.ERROR_UNKNOWN:
-                            failedReason = "ERROR_UNKNOWN";
-                            break;
-                    }
-
-                    Toast.makeText(this, "FAILED: " + failedReason,
-                            Toast.LENGTH_LONG).show();
-                    break;
-                case DownloadManager.STATUS_PAUSED:
-                    String pausedReason = "";
-
-                    switch (reason) {
-                        case DownloadManager.PAUSED_QUEUED_FOR_WIFI:
-                            pausedReason = "PAUSED_QUEUED_FOR_WIFI";
-                            break;
-                        case DownloadManager.PAUSED_UNKNOWN:
-                            pausedReason = "PAUSED_UNKNOWN";
-                            break;
-                        case DownloadManager.PAUSED_WAITING_FOR_NETWORK:
-                            pausedReason = "PAUSED_WAITING_FOR_NETWORK";
-                            break;
-                        case DownloadManager.PAUSED_WAITING_TO_RETRY:
-                            pausedReason = "PAUSED_WAITING_TO_RETRY";
-                            break;
-                    }
-
-                    Toast.makeText(this, "PAUSED: " + pausedReason,
-                            Toast.LENGTH_LONG).show();
-                    break;
-                case DownloadManager.STATUS_PENDING:
-                    Toast.makeText(this, "PENDING", Toast.LENGTH_LONG).show();
-                    break;
-                case DownloadManager.STATUS_RUNNING:
-                    Toast.makeText(this, "RUNNING", Toast.LENGTH_LONG).show();
-                    break;
-                case DownloadManager.STATUS_SUCCESSFUL:
-                    Toast.makeText(this, "SUCCESSFUL", Toast.LENGTH_LONG).show();
-                    // GetFile();
-                    break;
-            }
-        }
-    }
     private  void download(String url, String filename){
 
 
@@ -710,6 +634,10 @@ public class DetailActivity extends BaseActivity implements BottomSheetDialog.Ca
                 .setOnStartOrResumeListener(new OnStartOrResumeListener() {
                     @Override
                     public void onStartOrResume() {
+                        animationLoading.setVisibility(View.GONE);
+                        animationApply.setVisibility(View.VISIBLE);
+                        animationApply.setAnimation(R.raw.download_1);
+                        animationApply.playAnimation();
                     Log.e("downloadTask","start or resume");
                     }
                 })
@@ -728,17 +656,29 @@ public class DetailActivity extends BaseActivity implements BottomSheetDialog.Ca
                 .setOnProgressListener(new OnProgressListener() {
                     @Override
                     public void onProgress(Progress progress) {
-                        text_download.setText(Math.round((1.0*progress.currentBytes/progress.totalBytes)*100) + "%");
+//                        text_download.setText(Math.round((1.0*progress.currentBytes/progress.totalBytes)*100) + "%");
                         Log.e("downloadTask",Math.round((1.0*progress.currentBytes/progress.totalBytes)*100) + "%");
+
                     }
                 })
                 .start(new OnDownloadListener() {
 
                     @Override
                     public void onDownloadComplete() {
+                        animationApply.pauseAnimation();
+                        animationApply.setAnimation(R.raw.success);
+                        animationApply.playAnimation();
+                        animationApply.addAnimatorListener(new AnimatorListenerAdapter() {
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+                                super.onAnimationEnd(animation);
+                                animationApply.setVisibility(View.GONE);
+                            }
+                        });
 
-                        text_download.setVisibility(View.GONE);
-                        download.setVisibility(View.VISIBLE);
+
+//                        text_download.setVisibility(View.GONE);
+//                        download.setVisibility(View.VISIBLE);
                         download.setImageResource(R.drawable.downloaded);
                         download.setClickable(false);
                         Log.e("downloadTask","complete");

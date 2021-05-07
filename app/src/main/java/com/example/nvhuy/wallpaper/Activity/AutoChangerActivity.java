@@ -1,6 +1,7 @@
 package com.example.nvhuy.wallpaper.Activity;
 
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.WallpaperManager;
 import android.content.ComponentName;
@@ -19,6 +20,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.developer.kalert.KAlertDialog;
 import com.example.nvhuy.wallpaper.HamsiWallpaperSlideshow;
@@ -27,6 +29,7 @@ import com.example.nvhuy.wallpaper.R;
 
 import com.example.nvhuy.wallpaper.Ultility.ZoomRecyclerGridLayout;
 import com.example.nvhuy.wallpaper.adapter.LocalImageAdapter;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -38,8 +41,10 @@ public class AutoChangerActivity extends BaseActivity implements LocalImageAdapt
     ArrayList<File> listFile;
     Button btn_setWallpaper, btn_settings;
     ImageView btn_back;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
 
+    @SuppressLint("InvalidAnalyticsName")
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +55,7 @@ public class AutoChangerActivity extends BaseActivity implements LocalImageAdapt
         btn_setWallpaper = findViewById(R.id.btn_setWallpaper);
         btn_back = findViewById(R.id.imageBack);
         btn_back.setOnClickListener(v -> onBackPressed());
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         listFile = new ArrayList<>();
         getFile();
@@ -62,22 +68,24 @@ public class AutoChangerActivity extends BaseActivity implements LocalImageAdapt
         }
         adapter = new LocalImageAdapter(this, listFile, this);
         recyclerView.setAdapter(adapter);
-//        ZoomRecyclerLayout linearLayoutManager  =new  ZoomRecyclerLayout(this);
-//        linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
-//        linearLayoutManager.setReverseLayout(true);
-//        linearLayoutManager.setStackFromEnd(true);
-
-//        StaggeredGridLayoutManager mLayoutManager =
-//                new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL);
-        ZoomRecyclerGridLayout linearLayoutManager = new ZoomRecyclerGridLayout(this,1,LinearLayoutManager.HORIZONTAL,false);
 
 
-        recyclerView.setLayoutManager(linearLayoutManager);
+        StaggeredGridLayoutManager mLayoutManager =
+                new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
+
+
+
+        recyclerView.setLayoutManager(mLayoutManager);
 
         btn_setWallpaper.setOnClickListener(v -> {
             if (listFile.size()<2){
                 Toast.makeText(this, "Please pick more 2 pics", Toast.LENGTH_SHORT).show();
             }else {
+
+                // firebase
+                Bundle params = new Bundle();
+                params.putString("number image", String.valueOf(listFile.size()));
+                mFirebaseAnalytics.logEvent("set_image", params);
 
                 Intent i = new Intent();
                 if (Build.VERSION.SDK_INT > 15) {

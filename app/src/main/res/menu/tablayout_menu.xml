@@ -2,29 +2,38 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/home"
-        android:icon="@drawable/home_selected"
+        android:icon="@drawable/icon_home"
         android:title="Home"
-        app:cnb_iconColor="@color/selected_color"/>
+        app:cnb_iconColor="@color/white"
+        app:cnb_backgroundColor="@color/main_color"/>
     <item
         android:id="@+id/live"
-        android:icon="@drawable/live"
+        android:icon="@drawable/icon_live"
         android:title="Live"
-        app:cnb_iconColor="@color/selected_color"/>
-    <item
-        android:id="@+id/trending"
-        android:icon="@drawable/fire"
-        android:title="Trending"
-        app:cnb_iconColor="@color/selected_color" />
-b    <item
-        android:id="@+id/random"
-        android:icon="@drawable/random"
-        android:title="Random"
-        app:cnb_iconColor="@color/selected_color" />
+        android:iconTint="@color/black"
+        app:cnb_iconColor="@color/white"
+
+        app:cnb_backgroundColor="@color/main_color"/>
     <item
         android:id="@+id/category"
-        android:icon="@drawable/list"
+        android:icon="@drawable/icon_category"
         android:title="Category"
-        app:cnb_iconColor="@color/selected_color" />
+        app:cnb_iconColor="@color/white"
+        app:cnb_backgroundColor="@color/main_color" />
+
+   <item
+        android:id="@+id/random"
+        android:icon="@drawable/icon_random"
+        android:title="Random"
+    app:cnb_iconColor="@color/white"
+    app:cnb_backgroundColor="@color/main_color" />
+    <item
+        android:id="@+id/trending"
+        android:icon="@drawable/icon_trending"
+        android:title="Trending"
+        app:cnb_iconColor="@color/white"
+        app:cnb_backgroundColor="@color/main_color" />
+
 </menu>
 
 

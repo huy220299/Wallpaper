@@ -1,5 +1,6 @@
 package com.example.nvhuy.wallpaper.Activity;
 
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -61,7 +62,7 @@ public class ItemBySearchActivity extends BaseActivity {
         mImageList = new ArrayList<>();
         adapter = new RecyclerViewAdapter(mImageList);
         recyclerView.setAdapter(adapter);
-        ZoomRecyclerGridLayout mLayoutManager =new ZoomRecyclerGridLayout(this,2);
+        GridLayoutManager mLayoutManager =new GridLayoutManager(this,2);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
