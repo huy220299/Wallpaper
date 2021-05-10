@@ -22,6 +22,8 @@ import com.example.nvhuy.wallpaper.adapter.LocalImageAdapter;
 import java.io.File;
 import java.util.ArrayList;
 
+import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
+
 public class FavoriteActivity extends BaseActivity implements LocalImageAdapter.ItemLongClick {
     LocalImageAdapter adapter;
     RecyclerView recyclerView;
@@ -50,6 +52,7 @@ public class FavoriteActivity extends BaseActivity implements LocalImageAdapter.
         StaggeredGridLayoutManager mLayoutManager =
                 new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(mLayoutManager);
+        OverScrollDecoratorHelper.setUpOverScroll(recyclerView, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
         imgBack.setOnClickListener(v -> onBackPressed());
     }
 

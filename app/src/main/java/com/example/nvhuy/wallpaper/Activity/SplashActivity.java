@@ -1,45 +1,50 @@
 package com.example.nvhuy.wallpaper.Activity;
 
-import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.ProgressBar;
+import android.os.Handler;
+import android.util.Log;
 
+import com.example.nvhuy.wallpaper.HamsiWallpaperSlideshow;
 import com.example.nvhuy.wallpaper.R;
-import com.example.nvhuy.wallpaper.model.Image;
 
-import java.util.ArrayList;
+import java.io.File;
+
 
 public class SplashActivity extends BaseActivity {
-    public  static ArrayList<Image> mImageList1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        ProgressBar progressBar = findViewById(R.id.progressBar);
-        progressBar.setVisibility(View.VISIBLE);
+        //start
+        Boolean isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE)
+                .getBoolean("isFirstRun", true);
 
-        if (isNetworkConnected()){
-            progressBar.setVisibility(View.INVISIBLE);
-            startActivity(new Intent(SplashActivity.this,MainActivity.class));
-            finish();
-        }
 
-    }
-    public boolean isNetworkConnected() {
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
-    }
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (isFirstRun) {
+                    //show start activity
+                    startActivity(new Intent(SplashActivity.this, StartedActivity.class));
+                    finish();
+                } else if (!checkPermission()) {
+                    startActivity(new Intent(SplashActivity.this, ActivityPermission.class));
+                    finish();
+                }else {
+                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                    finish();
+                }
+                getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit()
+                        .putBoolean("isFirstRun", false).apply();
+            }
+        }, 5000);
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        finish();
     }
 }

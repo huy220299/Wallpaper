@@ -35,7 +35,7 @@ public class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         sharedPreferences = getSharedPreferences("night", 0);
-        boolean booleanValue = sharedPreferences.getBoolean("night_mode_wallpaper", false);
+        boolean booleanValue = sharedPreferences.getBoolean("night_mode_wallpaper", true);
         if (booleanValue) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         }

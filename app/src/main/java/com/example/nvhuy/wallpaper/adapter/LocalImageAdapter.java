@@ -34,7 +34,7 @@ public class LocalImageAdapter extends RecyclerView.Adapter<LocalImageAdapter.Vi
     Context context;
     ArrayList<File> list;
     int[] listSelected;
-    String path = "/storage/emulated/0/Android/data/com.example.nvhuy.wallpaper/files/autoChange/";
+
 
 
     public LocalImageAdapter(Context context, ArrayList<File> list, ItemLongClick itemLongClickListener) {
@@ -70,28 +70,30 @@ public class LocalImageAdapter extends RecyclerView.Adapter<LocalImageAdapter.Vi
             return true;
         });
         holder.itemView.setOnClickListener(view -> {
+            String path = context.getFilesDir().getAbsolutePath() + File.separator + "autoChange"+ File.separator;
             if (listSelected[position] == 0) {
-//                holder.itemView.setBackground(context.getDrawable(R.drawable.bg_login_button));
                 holder.itemView.setForeground(context.getDrawable(R.drawable.bg_login_button));
                 listSelected[position] = 1;
                 try {
-                    File file = new File(path);
-                    if (!file.exists()) {
-                        file.mkdirs();
+                    File direct = new File(path);
+                    direct.delete();
+                    if (!direct.exists()) {
+                        direct.mkdirs();
                     }
                     Files.copy(list.get(position).toPath(),
                             (new File(path + list.get(position).getName())).toPath(),
                             StandardCopyOption.REPLACE_EXISTING);
                 } catch (IOException e) {
                     e.printStackTrace();
-
                 }
             } else {
                 holder.itemView.setForeground(null);
                 listSelected[position] = 0;
                 if (checkDownload(list.get(position).getName())) {
                     File file = new File(path + list.get(position).getName());
+                    Log.e("LocalImageAdapter", file.getAbsolutePath());
                     file.delete();
+                    notifyDataSetChanged();
                 }
 
             }
@@ -125,12 +127,7 @@ public class LocalImageAdapter extends RecyclerView.Adapter<LocalImageAdapter.Vi
     }
 
     public boolean checkDownload(String image_name) {
-        String path = Environment.getExternalStorageDirectory().toString() +
-                File.separator + "Android"
-                + File.separator + "data"
-                + File.separator + context.getPackageName()
-                + File.separator + "files"
-                + File.separator + "autoChange";
+        String path = context.getFilesDir().getAbsolutePath() + File.separator + "autoChange" + File.separator;
         File directory = new File(path);
         File[] files = directory.listFiles();
         if (files != null) {

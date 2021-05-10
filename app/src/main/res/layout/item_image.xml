@@ -5,6 +5,7 @@
     android:layout_height="@dimen/_250sdp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="15dp"
+    app:cardBackgroundColor="@color/transparent"
     android:layout_marginRight="@dimen/_5sdp"
     android:layout_marginTop="@dimen/_5sdp">
 

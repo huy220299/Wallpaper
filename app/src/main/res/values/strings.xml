@@ -22,7 +22,7 @@
     <string name="preferences_folder_key">folder</string>
     <string name="preferences_folder_title">Folder</string>
     <string name="preferences_folder_summary">Folder containing photos to use in slideshow</string>
-    <string name="preferences_folder_default">/storage/emulated/0/Android/data/com.example.nvhuy.wallpaper/files/autoChange/</string>
+    <string name="preferences_folder_default">/data/user/0/com.example.nvhuy.wallpaper/files/autoChange/</string>
     <string-array name="preferences_folder_entries" />
     <string-array name="preferences_folder_values" />
 

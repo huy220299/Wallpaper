@@ -3,7 +3,6 @@ package com.example.nvhuy.wallpaper.Activity;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
 import android.animation.Animator;
@@ -12,14 +11,11 @@ import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.app.DownloadManager;
 import android.app.WallpaperManager;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
@@ -33,7 +29,6 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -62,26 +57,16 @@ import com.example.nvhuy.wallpaper.R;
 import com.example.nvhuy.wallpaper.Ultility.Common;
 import com.example.nvhuy.wallpaper.Service.VideoLiveWallpaper;
 import com.example.nvhuy.wallpaper.fragment.BottomSheetDialog;
-import com.example.nvhuy.wallpaper.model.Album;
 import com.example.nvhuy.wallpaper.model.Image;
 import com.example.nvhuy.wallpaper.model.Liked_image;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
 
 
 public class DetailActivity extends BaseActivity implements BottomSheetDialog.Callback {
@@ -143,11 +128,10 @@ public class DetailActivity extends BaseActivity implements BottomSheetDialog.Ca
         button_back = findViewById(R.id.button_back);
         myDatabaseHelper = new MyDatabaseHelper(this);
         videoView = findViewById(R.id.videoView);
-        createFirebaseStore();
         getFromIntent();
-
-        onClick();
         setBackground();
+        onClick();
+        createFirebaseStore();
 
     }
 
@@ -183,7 +167,6 @@ public class DetailActivity extends BaseActivity implements BottomSheetDialog.Ca
             videoView.invalidate();
             videoView.setVideoPath(url);
             videoView.start();
-
             videoView.setOnPreparedListener(mp -> {
                 mp.setLooping(true);
                 mp.setVolume(0f, 0f);
@@ -195,7 +178,6 @@ public class DetailActivity extends BaseActivity implements BottomSheetDialog.Ca
             videoView.setVisibility(View.GONE);
             Glide.with(DetailActivity.this)
                     .load(url)
-                    .thumbnail(0.1f)
                     .listener(new RequestListener<Drawable>() {
                         @Override
                         public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
@@ -230,44 +212,28 @@ public class DetailActivity extends BaseActivity implements BottomSheetDialog.Ca
         db.setFirestoreSettings(settings);
     }
     private void saveFirebaseStore(){
-        DocumentReference docIdRef = db.collection("Image").document(image.getId().toString());
-        docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        Log.d(TAG, "Document exists!");
+//        DocumentReference docIdRef = db.collection("Image").document(image.getId().toString());
+//        docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                if (task.isSuccessful()) {
+//                    DocumentSnapshot document = task.getResult();
+//                    if (document.exists()) {
+//                        Log.d(TAG, "Document exists!");
+//
+//                    } else {
+//                        db.collection("Image").document(image.getId().toString()).set(image);
+//                        Log.d(TAG, "Document does not exist!");
+//                    }
+//                } else {
+//                    Log.d(TAG, "Failed with: ", task.getException());
+//                }
+//            }
+//        });
 
-                    } else {
-                        db.collection("Image").document(image.getId().toString()).set(image);
-                        Log.d(TAG, "Document does not exist!");
-                    }
-                } else {
-                    Log.d(TAG, "Failed with: ", task.getException());
-                }
-            }
-        });
-
-
-    }
-    public void getAll(){
-        ArrayList<Image> arrayList = new ArrayList<>();
-        db.collection("Image")
-                .get()
-                .addOnCompleteListener((OnCompleteListener<QuerySnapshot>) task -> {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            Image image = (Image) document.toObject(Image.class);
-                            arrayList.add(image);
-                            Log.d(TAG, document.getId() + " => " + document.getData());
-                        }
-                    } else {
-                        Log.w(TAG, "Error getting documents.", task.getException());
-                    }
-                });
 
     }
+
     public void updatePathImage(String path){
         //update
         DocumentReference documentReference = db.collection("Image").document(image.getId().toString());
@@ -284,27 +250,13 @@ public class DetailActivity extends BaseActivity implements BottomSheetDialog.Ca
 
         url = getIntent().getExtras().getString("image");
         id_image = getIntent().getExtras().getString("id_image");
-        id_user = getIntent().getExtras().getString("id_user");
         tittle = getIntent().getExtras().getString("tittle");
-        tv_tittle.setText(tittle);
-        user = getIntent().getExtras().getString("user");
-        tv_user.setText(user);
-        downloaded = String.valueOf(getIntent().getExtras().getInt("download"));
-        tv_downloaded.setText(downloaded + " Downloads");
-        resolution = getIntent().getExtras().getString("resolution");
-        tv_resolution.setText(resolution);
-        size = getIntent().getExtras().getString("size");
-        tv_size.setText(size);
-        set = String.valueOf(getIntent().getExtras().getInt("set"));
-        tv_set.setText(set + " Applied");
-        views = String.valueOf(getIntent().getExtras().getInt("views"));
-        tv_views.setText(views + " Views");
-        create = getIntent().getExtras().getString("created");
-        tv_create.setText(create);
-        kind = getIntent().getExtras().getString("kind");
-        img_user = getIntent().getExtras().getString("img_user");
 
-        Glide.with(this).load(img_user).into(user_image);
+        kind = getIntent().getExtras().getString("kind");
+
+
+//        Glide.with(this).load(img_user)
+//                .into(user_image);
         //set follow and liked
         if (myDatabaseHelper.checkLiked(id_image)) {
             like.setImageResource(R.drawable.icon_favorited);
@@ -665,6 +617,12 @@ public class DetailActivity extends BaseActivity implements BottomSheetDialog.Ca
 
                     @Override
                     public void onDownloadComplete() {
+
+                        Bundle params = new Bundle();
+                        params.putString("image_name", tittle);
+                        params.putString("full_text", url);
+                        mFirebaseAnalytics.logEvent("download_image_success", params);
+
                         animationApply.pauseAnimation();
                         animationApply.setAnimation(R.raw.success);
                         animationApply.playAnimation();
@@ -688,6 +646,11 @@ public class DetailActivity extends BaseActivity implements BottomSheetDialog.Ca
                     public void onError(Error error) {
                         text_download.setVisibility(View.GONE);
                         download.setVisibility(View.VISIBLE);
+
+                        Bundle params = new Bundle();
+                        params.putString("image_name", tittle);
+                        params.putString("full_text", error.toString());
+                        mFirebaseAnalytics.logEvent("download_image_error", params);
                         Log.e("downloadTask","error");
                     }
                 });

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_color"
+    tools:context=".Activity.StartedActivity">
+   <ImageView
+       android:id="@+id/img"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:src="@drawable/icon_with_name"
+       app:layout_constraintLeft_toLeftOf="parent"
+       app:layout_constraintBottom_toBottomOf="parent"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintTop_toTopOf="parent"
+       app:layout_constraintVertical_bias=".16"
+       android:layout_marginLeft="@dimen/_20sdp"
+       />
+   <TextView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+      android:text="Wallpaper"
+      android:textSize="@dimen/_18ssp"
+       android:textColor="@color/text_change_color"
+      app:layout_constraintLeft_toRightOf="@id/img"
+       app:layout_constraintTop_toTopOf="parent"
+       app:layout_constraintBottom_toBottomOf="parent"
+       app:layout_constraintVertical_bias=".16"
+      android:layout_marginLeft="@dimen/_5sdp"
+       />
+   <TextView
+       android:id="@+id/tv_stated"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+      android:text="Let's Get Started"
+      android:textSize="@dimen/_52ssp"
+       android:textStyle="bold"
+       android:textColor="@color/text_change_color"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintBottom_toBottomOf="parent"
+       app:layout_constraintLeft_toLeftOf="parent"
+      app:layout_constraintVertical_bias="0.375"
+       android:layout_marginLeft="@dimen/_20sdp"
+       />
+   <TextView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+      android:text="Enjoy the best wallpaper for yor phone"
+      android:textSize="@dimen/_13ssp"
+       android:textColor="@color/text_change_color"
+      app:layout_constraintTop_toBottomOf="@id/tv_stated"
+      app:layout_constraintStart_toStartOf="parent"
+      android:layout_marginStart="@dimen/_20sdp"/>
+   <Button
+       android:id="@+id/btn_start"
+       android:layout_width="fill_parent"
+       android:layout_height="wrap_content"
+      android:text="Continues"
+      android:textSize="@dimen/_20ssp"
+       android:textColor="@color/white"
+      android:background="@drawable/background_button_start"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintVertical_bias=".88"
+       app:layout_constraintLeft_toLeftOf="parent"
+       app:layout_constraintRight_toRightOf="parent"
+       app:layout_constraintHorizontal_bias=".5"
+       android:layout_marginLeft="@dimen/_40sdp"
+       android:layout_marginRight="@dimen/_40sdp"
+       />
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

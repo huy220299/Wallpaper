@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="@dimen/_100sdp"
+    android:layout_marginStart="@dimen/_10sdp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardBackgroundColor="@color/transparent"
     app:cardCornerRadius="15dp">
     <RelativeLayout
         android:layout_width="match_parent"
@@ -28,21 +30,16 @@
             android:text="VIEW ALL >>"
             android:textColor="@color/text_change_color"/>
 
-        <androidx.constraintlayout.motion.widget.MotionLayout
-            android:id="@+id/constraintLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_more_brand"
-            app:layoutDescription="@xml/item_album_type_header_xml_constraintlayout_scene">
 
             <androidx.recyclerview.widget.RecyclerView
+                android:layout_below="@+id/view_all"
                 android:id="@+id/recyclerView_brand"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.motion.widget.MotionLayout>
+
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

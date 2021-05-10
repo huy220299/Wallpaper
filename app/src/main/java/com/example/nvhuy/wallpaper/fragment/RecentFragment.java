@@ -23,9 +23,8 @@ import android.widget.Toast;
 import com.example.nvhuy.wallpaper.R;
 import com.example.nvhuy.wallpaper.APIService.APIService;
 import com.example.nvhuy.wallpaper.APIService.DataService;
-import com.example.nvhuy.wallpaper.Ultility.ZoomRecyclerGridLayout;
 import com.example.nvhuy.wallpaper.adapter.CustomerAdapter;
-import com.example.nvhuy.wallpaper.model.Album;
+import com.example.nvhuy.wallpaper.model.Category;
 import com.example.nvhuy.wallpaper.model.Image;
 import com.google.gson.Gson;
 
@@ -33,6 +32,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -42,7 +42,7 @@ public class RecentFragment extends Fragment {
 
     RecyclerView rRecent;
     ArrayList<Image> mImageList;
-    ArrayList<Album> listAlbum;
+    ArrayList<Category> listCategory;
     ProgressBar progressBar;
     SwipeRefreshLayout swipeRefreshLayout;
     CustomerAdapter customerAdapter;
@@ -70,29 +70,21 @@ public class RecentFragment extends Fragment {
             mImageList.clear();
             customerAdapter.notifyDataSetChanged();
             loadMore(page);
-            //delete and download default
-//            File direct = new File("/defaultWallpaper");
-//            if (!direct.exists()) {
-//                direct.delete();
-//            }
-//            for(int i=0;i<10;i++){
-//                downloadDefaults(mImageList.get(i).getId().toString(),mImageList.get(i).getOriginal(),"jpg");
-//            }
             swipeRefreshLayout.setRefreshing(false);
         });
 
         progressBar = viewGroup.findViewById(R.id.progressBar);
-        listAlbum = new ArrayList<>();
+        listCategory = new ArrayList<>();
 
-        listAlbum.add(new Album("6","Super Heroes",R.drawable.wallpaper3));
-        listAlbum.add(new Album("2","Rate",R.drawable.wallpaper4));
-        listAlbum.add(new Album("2","Minimal Wallpapers",R.drawable.wallpaper5));
-        listAlbum.add(new Album("12","Abstract Wallpaper",R.drawable.wallpaper6));
-        listAlbum.add(new Album("9","Dope Wallpaper",R.drawable.wallpaper7));
-        listAlbum.add(new Album("6","Instagram",R.drawable.wallpaper8));
-
+        listCategory.add(new Category("6","Super Heroes",R.drawable.heroes_banner));
+        listCategory.add(new Category("2","Rate",R.drawable.rate_banner));
+        listCategory.add(new Category("2","Minimal Wallpapers",R.drawable.minimal_banner));
+        listCategory.add(new Category("12","Abstract Wallpaper",R.drawable.abstract_wallpaper));
+        listCategory.add(new Category("9","Dope Wallpaper",R.drawable.dope_banner));
+        listCategory.add(new Category("4","Cars",R.drawable.car_banner));
+        listCategory.add(new Category("21","Movies & Web Series",R.drawable.movie_banner));
         mImageList = new ArrayList<>();
-        customerAdapter = new CustomerAdapter(getContext(), mImageList, listAlbum);
+        customerAdapter = new CustomerAdapter(getContext(), mImageList, listCategory);
         rRecent.setAdapter(customerAdapter);
         rRecent.setHasFixedSize(true);
 
@@ -112,6 +104,7 @@ public class RecentFragment extends Fragment {
             }
         });
         rRecent.setLayoutManager(mLayoutManager);
+        OverScrollDecoratorHelper.setUpOverScroll(rRecent, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
 
 
         DataService dataservice = APIService.getService();

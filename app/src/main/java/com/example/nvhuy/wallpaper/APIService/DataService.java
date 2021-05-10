@@ -2,7 +2,6 @@ package com.example.nvhuy.wallpaper.APIService;
 
 
 import com.example.nvhuy.wallpaper.model.Brand;
-import com.example.nvhuy.wallpaper.model.Category;
 import com.example.nvhuy.wallpaper.model.Image;
 
 
@@ -31,7 +30,6 @@ public interface DataService {
     @GET("api/pack/all/p2pqlsnjHgdxX21GFRAYyLvNBe3zcsSz/16edd7cf-2525-485e-b11a-3dd35f382457/")
     Call<List<Brand>> getAllBrand();
 
-    @GET("api/category/all/p2pqlsnjHgdxX21GFRAYyLvNBe3zcsSz/16edd7cf-2525-485e-b11a-3dd35f382457/")
-    Call<List<Category>> getAllCategory();
+
 
 }

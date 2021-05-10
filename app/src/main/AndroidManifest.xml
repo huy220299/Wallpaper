@@ -35,9 +35,8 @@
         <activity android:name=".login.SignUpActivity" />
         <activity android:name=".Activity.UserActivity" />
         <activity android:name=".Activity.SettingsActivity" />
-        <activity android:name=".Activity.SelectFolderActivity" />
         <activity android:name=".Activity.EditActivity" />
-        <activity android:name=".Activity.SplashActivity" />
+        <activity android:name=".Activity.MainActivity" />
         <activity android:name=".Activity.FavoriteActivity" />
         <activity android:name=".Activity.AutoChangerActivity" />
         <activity android:name=".Activity.ItemByBrandActivity" />
@@ -46,7 +45,7 @@
         <activity android:name=".Activity.ItemByCategoryActivity" />
         <activity android:name=".Activity.DetailActivity" />
         <activity
-            android:name=".Activity.MainActivity"
+            android:name=".Activity.SplashActivity"
             android:configChanges="uiMode">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

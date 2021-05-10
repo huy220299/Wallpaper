@@ -40,7 +40,7 @@ public class RecyclerViewAdapter_brand extends RecyclerView.Adapter<RecyclerView
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Brand currentItem =listBrand.get(position);
         Glide.with(context).load(currentItem.getImages().get(0))
-                .placeholder(R.drawable.icon)
+                .placeholder(R.drawable.place_holder)
                 .thumbnail(0.5f)
                 .into(holder.img);
         holder.img_name.setText(currentItem.getTitle());

@@ -56,21 +56,21 @@
             android:id="@+id/instagram"
             android:layout_width="@dimen/_15sdp"
             android:layout_height="@dimen/_15sdp"
-            android:src="@drawable/instagram"
+            android:src="@drawable/instagram_icon"
             android:layout_gravity="center"
             android:layout_marginLeft="@dimen/_15sdp"/>
         <ImageView
             android:id="@+id/email"
             android:layout_width="@dimen/_15sdp"
             android:layout_height="@dimen/_15sdp"
-            android:src="@drawable/instagram"
+            android:src="@drawable/instagram_icon"
             android:layout_gravity="center"
             android:layout_marginLeft="@dimen/_5sdp"/>
         <ImageView
             android:id="@+id/twitter"
             android:layout_width="@dimen/_15sdp"
             android:layout_height="@dimen/_15sdp"
-            android:src="@drawable/instagram"
+            android:src="@drawable/instagram_icon"
             android:layout_gravity="center"
             android:layout_marginLeft="@dimen/_5sdp"/>
 

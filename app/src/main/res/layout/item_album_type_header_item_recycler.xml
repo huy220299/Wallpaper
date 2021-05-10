@@ -5,6 +5,7 @@
     android:layout_marginEnd="@dimen/_10sdp"
     android:layout_marginBottom="@dimen/_10sdp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardBackgroundColor="@color/transparent"
     app:cardCornerRadius="5dp">
     <RelativeLayout
         android:layout_width="match_parent"

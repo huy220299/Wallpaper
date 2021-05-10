@@ -47,7 +47,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
          }
         Glide.with(context).load(currentItem.getThumbnail())
                 .thumbnail(0.1f)
-                .placeholder(R.drawable.icon)
+                .placeholder(R.drawable.place_holder)
                 .into(holder.img);
         holder.img_name.setText(currentItem.getTitle());
 

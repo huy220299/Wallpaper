@@ -4,6 +4,7 @@
     android:layout_height="@dimen/_110sdp"
     android:layout_margin="@dimen/_5sdp"
     android:layout_marginLeft="@dimen/_7sdp"
+    app:cardBackgroundColor="@color/transparent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="15dp">
     <RelativeLayout

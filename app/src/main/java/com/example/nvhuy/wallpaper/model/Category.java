@@ -1,44 +1,36 @@
 package com.example.nvhuy.wallpaper.model;
 
-
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
-
 public class Category {
+    String id_category, category;
+    int images;
 
-@SerializedName("id")
-@Expose
-private Integer id;
-@SerializedName("title")
-@Expose
-private String title;
-@SerializedName("image")
-@Expose
-private String image;
+    public String getId_category() {
+        return id_category;
+    }
 
-public Integer getId() {
-return id;
-}
+    public void setId_category(String id_category) {
+        this.id_category = id_category;
+    }
 
-public void setId(Integer id) {
-this.id = id;
-}
+    public String getCategory() {
+        return category;
+    }
 
-public String getTitle() {
-return title;
-}
+    public void setCategory(String category) {
+        this.category = category;
+    }
 
-public void setTitle(String title) {
-this.title = title;
-}
+    public int getImages() {
+        return images;
+    }
 
-public String getImage() {
-return image;
-}
+    public void setImages(int images) {
+        this.images = images;
+    }
 
-public void setImage(String image) {
-this.image = image;
-}
-
+    public Category(String id_category, String category, int images) {
+        this.id_category = id_category;
+        this.category = category;
+        this.images = images;
+    }
 }

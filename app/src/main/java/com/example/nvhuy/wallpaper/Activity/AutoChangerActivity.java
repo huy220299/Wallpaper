@@ -34,6 +34,8 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import java.io.File;
 import java.util.ArrayList;
 
+import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
+
 
 public class AutoChangerActivity extends BaseActivity implements LocalImageAdapter.ItemLongClick {
     RecyclerView recyclerView;
@@ -76,6 +78,7 @@ public class AutoChangerActivity extends BaseActivity implements LocalImageAdapt
 
 
         recyclerView.setLayoutManager(mLayoutManager);
+        OverScrollDecoratorHelper.setUpOverScroll(recyclerView, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
 
         btn_setWallpaper.setOnClickListener(v -> {
             if (listFile.size()<2){
@@ -91,7 +94,6 @@ public class AutoChangerActivity extends BaseActivity implements LocalImageAdapt
                 if (Build.VERSION.SDK_INT > 15) {
                     i.setAction(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER);
                     String p = HamsiWallpaperSlideshow.class.getPackage().getName();
-//                    String p = HamsiWallpaperSlideshow.class.getPackage().getName();
                     String c = HamsiWallpaperSlideshow.class.getCanonicalName();
                     i.putExtra(WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT, new ComponentName(p, c));
                 } else {

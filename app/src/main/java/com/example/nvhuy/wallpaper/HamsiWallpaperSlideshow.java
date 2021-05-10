@@ -313,6 +313,7 @@ public class HamsiWallpaperSlideshow extends WallpaperService {
                     mFolder = sharedPreferences.getString(
                             res.getString(R.string.preferences_folder_key),
                             res.getString(R.string.preferences_folder_default));
+                    Log.e("test folder", mFolder);
                     mDuration = Integer.valueOf(sharedPreferences.getString(
                             res.getString(R.string.preferences_duration_key),
                             res.getString(R.string.preferences_duration_default)));
@@ -339,8 +340,10 @@ public class HamsiWallpaperSlideshow extends WallpaperService {
                             Boolean.valueOf(res.getString(R.string.preferences_screen_awake_default)));
                     mLastDrawTime = 0;
                 } else if (key.equals(res.getString(R.string.preferences_folder_key))) {
+
                     mFolder = sharedPreferences.getString(key,
                             res.getString(R.string.preferences_folder_default));
+                    Log.e("test folder", mFolder);
                     mIndex = -1;
                     mLastDrawTime = 0;
                 } else if (key.equals(res.getString(R.string.preferences_duration_key))) {
@@ -412,9 +415,11 @@ public class HamsiWallpaperSlideshow extends WallpaperService {
                             mBitmapPath = "default";
                             // Save the current time
                             mLastDrawTime = System.currentTimeMillis();
+                            Log.e("test1", mFolder);
                         } else {
                             // Increment counter
                             int nFiles = files.length;
+                            Log.e("test2", mFolder);
                             if (mRandom) {
                                 int i = mIndex;
                                 do {
@@ -434,6 +439,7 @@ public class HamsiWallpaperSlideshow extends WallpaperService {
                             mLastDrawTime = System.currentTimeMillis();
                         }
                     } else if (_isSetAgain) {
+                        Log.e("test3", mFolder);
                         if (mBitmapPath.equals("default")) {
                             mBitmap = getDefaultBitmap();
                         } else {

@@ -43,8 +43,9 @@
     <color name="bg_edt_search">#969696D3</color>
     <color name="background_color">#f9feff</color>
     <color name="text_change_color">#000000</color>
+    <color name="text_hint_color">#969696D3</color>
 
-<!--    <color name="background_color">#191B31</color>-->
+    <!--    <color name="background_color">#191B31</color>-->
 <!--    <color name="text_change_color">#fff</color>-->
 <!--    <color name="bg_edt_search">#E0E0E08D</color>-->
 

@@ -23,16 +23,27 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
+import android.util.AttributeSet;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.example.nvhuy.wallpaper.HamsiWallpaperSlideshow;
 import com.example.nvhuy.wallpaper.R;
+
+import java.io.File;
 
 public class SettingsActivity extends PreferenceActivity {
 
@@ -42,14 +53,19 @@ public class SettingsActivity extends PreferenceActivity {
     ListPreference mPath;
     private static final String TAG = "SettingsActivity";
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         try {
             super.onCreate(savedInstanceState);
             mContext = this;
+            setTheme(R.style.PreferenceTheme);
 
             getPreferenceManager().setSharedPreferencesName(HamsiWallpaperSlideshow.SHARED_PREFS_NAME);
             addPreferencesFromResource(R.xml.preferences);
+
 
             mPath = (ListPreference) findPreference(getString(
                     R.string.preferences_folder_key));
@@ -57,7 +73,7 @@ public class SettingsActivity extends PreferenceActivity {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
                     mPath.getDialog().hide();
-                    Intent intent = new Intent(SettingsActivity.this, SelectFolderActivity.class);
+//                    Intent intent = new Intent(SettingsActivity.this, SelectFolderActivity.class);
 //                    startActivityForResult(intent, DIALOG_SELECT_ALBUM);
                     return true;
                 }
@@ -69,17 +85,19 @@ public class SettingsActivity extends PreferenceActivity {
         }
     }
 
+
     protected final void onActivityResult(final int requestCode,
                                           final int resultCode, final Intent i) {
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case DIALOG_SELECT_ALBUM:
                     SharedPreferences prefs = getSharedPreferences(
-                            HamsiWallpaperSlideshow.SHARED_PREFS_NAME, 1);
+                            HamsiWallpaperSlideshow.SHARED_PREFS_NAME, MODE_PRIVATE);
                     Editor editor = prefs.edit();
 //                    editor.putString(getResources().getString(R.string.preferences_folder_key), i.getStringExtra("folder"));
                     //todo hash code to folder
-                    editor.putString(getResources().getString(R.string.preferences_folder_key), "/storage/emulated/0/Android/data/com.example.nvhuy.wallpaper/files/autoChange");
+                    String path = this.getFilesDir().getAbsolutePath() + File.separator + "autoChange";
+                    editor.putString(getResources().getString(R.string.preferences_folder_key), path);
                     editor.commit();
                     break;
             }

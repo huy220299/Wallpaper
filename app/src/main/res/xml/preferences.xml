@@ -1,18 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:key="@string/preferences_key"
-    android:title="@string/settings_activity">
+    android:title="@string/settings_activity"
 
-    <ListPreference
-        android:id="@+id/prefs_folder"
-        android:defaultValue="@string/preferences_folder_default"
-        android:entries="@array/preferences_folder_entries"
-        android:entryValues="@array/preferences_folder_values"
-        android:key="@string/preferences_folder_key"
-        android:summary="@string/preferences_folder_default"
-        android:title="@string/preferences_folder_title"
-
-        />
+    >
 
     <CheckBoxPreference
         android:id="@+id/prefs_recurse"

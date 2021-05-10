@@ -16,14 +16,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.PagerAdapter;
 
-import com.bumptech.glide.GenericTransitionOptions;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.nvhuy.wallpaper.Activity.DetailActivity;
 import com.example.nvhuy.wallpaper.Activity.ItemByCategoryActivity;
-import com.example.nvhuy.wallpaper.Activity.MainActivity;
 import com.example.nvhuy.wallpaper.R;
-import com.example.nvhuy.wallpaper.model.Album;
+import com.example.nvhuy.wallpaper.model.Category;
 import com.example.nvhuy.wallpaper.model.Image;
 import com.kobakei.ratethisapp.RateThisApp;
 
@@ -39,13 +37,13 @@ public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.Recycl
 
 
     private List<Image> listImage;
-    private List<Album> listAlbum;
+    private List<Category> listCategory;
 
     //constructor
-    public CustomerAdapter(Context context, List<Image> listImage, List<Album> listAlbum) {
+    public CustomerAdapter(Context context, List<Image> listImage, List<Category> listCategory) {
         this.context = context;
         this.listImage = listImage;
-        this.listAlbum = listAlbum;
+        this.listCategory = listCategory;
     }
 
     @Override
@@ -70,9 +68,9 @@ public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.Recycl
         if (position != 0 && recyclerViewHolder.viewType == IS_NORMAL) {
             final Image currentItem = listImage.get(position);
             Glide.with(context).load(listImage.get(position).getThumbnail())
-                    .thumbnail(0.1f)
                     .dontAnimate()
-                    .placeholder(R.drawable.icon)
+                    .apply(new RequestOptions().override(300, 600))
+                    .placeholder(R.drawable.place_holder)
                     .into(recyclerViewHolder.imgView);
 
             recyclerViewHolder.txtView.setText(listImage.get(position).getTitle());
@@ -141,14 +139,13 @@ public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.Recycl
             if (viewType == IS_HEADER) {
 
                 AutoScrollViewPager viewPager = itemView.findViewById(R.id.vpheader);
-                myAdapter = new MyAdapter(context, listAlbum);
+                myAdapter = new MyAdapter(context, listCategory);
                 viewPager.setAdapter(myAdapter);
                 viewPager.setInterval(4000);
                 viewPager.startAutoScroll();
-
                 //viewPagerClick listener
                 viewPager.setOnPageClickListener((pager, position) -> {
-                    final Album currentItem = listAlbum.get(position);
+                    final Category currentItem = listCategory.get(position);
 
                     if (position == 1) {
                         RateThisApp rateThisApp = null;
@@ -215,21 +212,21 @@ public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.Recycl
 
     //adapter for viewPager Header
     private class MyAdapter extends PagerAdapter {
-        List<Album> listAlbum1;
+        List<Category> listCategory1;
         Context context;
 
-        public MyAdapter(Context context, List<Album> listAlbum1) {
-            this.listAlbum1 = listAlbum1;
+        public MyAdapter(Context context, List<Category> listCategory1) {
+            this.listCategory1 = listCategory1;
             this.context = context;
         }
 
         @Override
         public int getCount() {
 
-            if (listAlbum.size() == 0) {
+            if (listCategory.size() == 0) {
                 return 0;
             }
-            return listAlbum.size();
+            return listCategory.size();
         }
 
         @Override
@@ -243,7 +240,10 @@ public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.Recycl
             ViewGroup layout = (ViewGroup) inflater.inflate(R.layout.item_viewpager_header, container,
                     false);
             ImageView imageView = layout.findViewById(R.id.image);
-            Glide.with(context).load(listAlbum1.get(position).getImages()).into(imageView);
+            Glide.with(context)
+                    .load(listCategory1.get(position).getImages())
+                    .apply(new RequestOptions().override(600, 600))
+                    .into(imageView);
 
 
             container.addView(layout);

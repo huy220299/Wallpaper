@@ -18,9 +18,8 @@ import com.example.nvhuy.wallpaper.Activity.ItemByBrandActivity;
 import com.example.nvhuy.wallpaper.Activity.ItemByCategoryActivity;
 import com.example.nvhuy.wallpaper.R;
 
-import com.example.nvhuy.wallpaper.model.Brand;
 import com.example.nvhuy.wallpaper.model.Category;
-import com.squareup.picasso.Picasso;
+import com.example.nvhuy.wallpaper.model.Brand;
 
 import java.util.List;
 
@@ -60,15 +59,15 @@ public class CustomerAdapter_category extends RecyclerView.Adapter<CustomerAdapt
     public void onBindViewHolder(@NonNull RecyclerViewHolder recyclerViewHolder, int position) {
         if (position != 0 && recyclerViewHolder.viewType == IS_NORMAL) {
             final Category currentItem = listCategory.get(position);
-            Glide.with(context).load(listCategory.get(position).getImage())
+            Glide.with(context).load(listCategory.get(position).getImages())
                     .thumbnail(0.1f)
-                    .placeholder(R.drawable.icon)
+                    .placeholder(R.drawable.place_holder)
                     .into(recyclerViewHolder.imgView);
-            recyclerViewHolder.txtView.setText(listCategory.get(position).getTitle());
+            recyclerViewHolder.txtView.setText(listCategory.get(position).getCategory());
             recyclerViewHolder.setItemClickListener((view, position1) -> {
                 Intent intent = new Intent(view.getContext(), ItemByCategoryActivity.class);
-                intent.putExtra("id_category", currentItem.getId().toString());
-                intent.putExtra("category", currentItem.getTitle());
+                intent.putExtra("id_category", currentItem.getId_category());
+                intent.putExtra("category", currentItem.getCategory());
 
                 view.getContext().startActivity(intent);
             });
